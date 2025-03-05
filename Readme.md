@@ -7,7 +7,9 @@ cargo build --release
 
 For the moment the cleaner support : 
 C:/Windows/temp
+
 C:/Windows/prefetch
+
 C:/Users/{$user}/AppData/Local/Temp
 
 Made by UNDER-TAKER
