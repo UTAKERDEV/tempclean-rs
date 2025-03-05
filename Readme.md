@@ -5,9 +5,8 @@ Made in rust, for build the program you need to have rust :
 **https://www.rust-lang.org/**
 
 Command for build the program : 
-``rs
-cargo build --release
 ``
+cargo build --release``
 
 For the moment the cleaner support : 
 
