@@ -1,8 +1,10 @@
+// Import the necessary modules
 use std::env;
 use std::fs;
 use std::path::Path;
 use std::io::{self, Write};
 
+// Get the size of a folder and its content
 fn get_folder_size(path: &str) -> u64 {
     let mut size = 0;
     if let Ok(entries) = fs::read_dir(path) {
@@ -20,10 +22,12 @@ fn get_folder_size(path: &str) -> u64 {
     size
 }
 
+// Clean a folder by deleting all its content
 fn clean_folder(path: &str) -> u64 {
     let folder_path = Path::new(path);
     let before_size = get_folder_size(path);
 
+    // Clean the folder
     if folder_path.exists() {
         match fs::read_dir(folder_path) {
             Ok(entries) => {
@@ -35,6 +39,7 @@ fn clean_folder(path: &str) -> u64 {
                         fs::remove_dir_all(&entry_path).ok();
                     }
                 }
+                // Check the size after cleaning
                 let after_size = get_folder_size(path);
                 let freed_space = before_size.saturating_sub(after_size);
                 println!("✅ Folder cleaned : {} (Space gained : {:.2} MB)", path, freed_space as f64 / 1_048_576.0);
@@ -51,7 +56,7 @@ fn clean_folder(path: &str) -> u64 {
 fn main() {
     let mut total_freed = 0;
 
-    // Récupérer le nom de l'utilisateur Windows
+    // Gather windows username
     if let Ok(user_name) = env::var("USERNAME") {
         let user_temp = format!("C:\\Users\\{}\\AppData\\Local\\Temp", user_name);
         total_freed += clean_folder(&user_temp);
@@ -59,15 +64,15 @@ fn main() {
         eprintln!("❌ Impossible to gather the username.");
     }
 
-    // Nettoyer le dossier Prefetch (nécessite des droits admin)
+    // Clean Prefetch folder (need admin rights)
     total_freed += clean_folder("C:\\Windows\\Prefetch");
 
-    // Nettoyer le dossier Windows\Temp
+    // Clean Windows\Temp folder
     total_freed += clean_folder("C:\\Windows\\Temp");
 
     println!("\n🎉 Clean finished ! Total space freed : {:.2} MB", total_freed as f64 / 1_048_576.0);
 
-    // Attendre que l'utilisateur appuie sur une touche avant de fermer
+    // Wait for user to press a key before closing
     println!("\nPress Enter to exit...");
     io::stdout().flush().unwrap();
     let mut _input = String::new();
