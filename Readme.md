@@ -1,4 +1,6 @@
 Dedicated software for cleaning some temporary windows files.
+Recommended to launch as admin for prefetch and windows/temp folders.
+
 Made in rust, for build the program you need to have rust : 
 https://www.rust-lang.org/
 
